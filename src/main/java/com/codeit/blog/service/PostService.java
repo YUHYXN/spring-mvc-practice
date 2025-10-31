@@ -1,6 +1,8 @@
 package com.codeit.blog.service;
 
 import com.codeit.blog.dto.request.PostRequest;
+import com.codeit.blog.dto.response.PostResponse;
+import com.codeit.blog.entity.Category;
 import com.codeit.blog.entity.Post;
 import com.codeit.blog.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,17 @@ public class PostService {
                 .updateAt(LocalDateTime.now())
                 .build();
         return postRepository.save(post);
+    }
+
+    public PostResponse getPostById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
+        return PostResponse.from(post);
+    }
+
+    public void searchPost(String keyword, Category category, String sort) {
+
     }
 }
 

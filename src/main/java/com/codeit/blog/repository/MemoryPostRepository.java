@@ -25,7 +25,7 @@ public class MemoryPostRepository implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(store.get(id));
     }
 
     @Override

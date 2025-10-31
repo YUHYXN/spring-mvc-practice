@@ -1,16 +1,16 @@
 package com.codeit.blog.controller;
 
 import com.codeit.blog.dto.request.PostRequest;
+import com.codeit.blog.dto.response.CommentResponse;
+import com.codeit.blog.dto.response.PostResponse;
 import com.codeit.blog.entity.Category;
 import com.codeit.blog.entity.Post;
+import com.codeit.blog.service.CommentService;
 import com.codeit.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
@@ -47,6 +48,29 @@ public class PostController {
         // redirect: 재요청
         // "redirect:/posts" -> 응답을 클라이언트로 내보낸 후 자동 재요청으로 /posts 요청이 들어오도록 유도해 달라.
         return "redirect:/posts";
+    }
+
+    @GetMapping("/{id}")
+    public String detail(@PathVariable Long id, Model model) {
+        PostResponse dto = postService.getPostById(id);
+        List<CommentResponse> comments = commentService.getCommentsByPostId(id);
+
+        model.addAttribute("post", dto);
+        model.addAttribute("pageTitle", dto.getTitle());
+        model.addAttribute("comments", comments);
+
+        return "posts/detail";
+    }
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Category category,
+            @RequestParam(required = false, defaultValue = "latest") String sort,
+            Model model
+    ) {
+        postService.searchPost(keyword, category, sort);
+        return keyword;
     }
 
 }
