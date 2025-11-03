@@ -31,6 +31,7 @@ public class PostService {
                 .author(request.getAuthor())
                 .content(request.getContent())
                 .category(request.getCategory())
+                .thumbnailPath(request.getThumbnailPath())
                 .viewcount(0)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
