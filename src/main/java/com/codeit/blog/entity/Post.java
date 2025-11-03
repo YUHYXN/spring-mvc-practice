@@ -43,4 +43,8 @@ public class Post {
         this.id = id;
         return this;
     }
+
+    public void setViewcount() {
+        this.viewcount++;
+    }
 }

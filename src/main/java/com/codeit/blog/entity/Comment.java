@@ -17,6 +17,6 @@ public class Comment {
     private Long postId;
     private String content;
     private String author;
-    private LocalDateTime createdAt;
+    private LocalDateTime createAt;
 
 }

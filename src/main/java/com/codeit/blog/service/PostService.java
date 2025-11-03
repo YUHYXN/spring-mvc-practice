@@ -41,11 +41,34 @@ public class PostService {
     public PostResponse getPostById(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
-
+        postRepository.updateViewCount(id);
         return PostResponse.from(post);
     }
 
-    public void searchPost(String keyword, Category category, String sort) {
+    public List<PostResponse> searchPost(String keyword, Category category, String sort) {  // posts 리스폰스로 바꿔서 리턴해야한다 (Map)
+        List<Post> posts;
+
+        if (category != null) {
+            posts = postRepository.findByCategory(category);
+        } else if (keyword != null && !keyword.trim().isEmpty()) {
+            posts = postRepository.findByTitleOrContentContaining(keyword);
+        }else  {
+            posts = postRepository.findAll();
+        }
+
+        // 정렬
+        if ("viewCount".equals(sort)) {
+            posts.stream()
+                    .sorted(Comparator.comparing(Post::getViewcount).reversed())
+                    .collect(Collectors.toList());
+        }else  {
+            posts.sort(Comparator.comparing(Post::getViewcount).reversed());
+        }   // Map이나 DTO로 바꿔서 리턴해야함
+
+        return posts.stream()
+                .map(PostResponse::from)
+                .collect(Collectors.toList());
+
 
     }
 }

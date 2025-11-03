@@ -29,7 +29,7 @@ public class PostController {
         // model: 자바 데이터를 뷰(사용자에게 응답할 페이지)로 전달하는 용도로 사용하는 객체.
         model.addAttribute("posts", allPosts);
         model.addAttribute("pageTitle", "블로그에 오신것을 환영합니다!");
-        return "posts/list";
+        return "posts/list"; // 뷰의 이름을 리턴
     }
 
     @GetMapping("/new")
@@ -69,8 +69,15 @@ public class PostController {
             @RequestParam(required = false, defaultValue = "latest") String sort,
             Model model
     ) {
-        postService.searchPost(keyword, category, sort);
-        return keyword;
+        List<PostResponse> posts = postService.searchPost(keyword, category, sort);
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("category", category);
+        model.addAttribute("sort", sort);
+        model.addAttribute("pageTitle", "🔎 검색 결과");
+
+        return "posts/list";
     }
 
 }
