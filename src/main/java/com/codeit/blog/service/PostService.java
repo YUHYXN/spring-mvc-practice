@@ -23,6 +23,16 @@ public class PostService {
         return postRepository.findAll().stream()
                 .sorted(Comparator.comparing(Post::getCreateAt).reversed()) // 생성일자 내림차 정렬
                 .collect(Collectors.toList());
+//            List<Post> posts = postRepository.findAll();
+//            posts.sort((a, b) -> {
+//                var ca = a.getCreateAt();
+//                var cb = b.getCreateAt();
+//                if (ca == null && cb == null) return 0; // 둘 다 null
+//                if (ca == null) return 1;               // null은 뒤로
+//                if (cb == null) return -1;              // null은 뒤로
+//                return cb.compareTo(ca);                // 내림차순(최신 우선)
+//            });
+//            return posts;
     }
 
     public Post createPost(PostRequest request) {
@@ -32,7 +42,7 @@ public class PostService {
                 .content(request.getContent())
                 .category(request.getCategory())
                 .thumbnailPath(request.getThumbnailPath())
-                .viewcount(0)
+                .viewCount(0)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
                 .build();
@@ -60,10 +70,10 @@ public class PostService {
         // 정렬
         if ("viewCount".equals(sort)) {
             posts.stream()
-                    .sorted(Comparator.comparing(Post::getViewcount).reversed())
+                    .sorted(Comparator.comparing(Post::getViewCount).reversed())
                     .collect(Collectors.toList());
         }else  {
-            posts.sort(Comparator.comparing(Post::getViewcount).reversed());
+            posts.sort(Comparator.comparing(Post::getViewCount).reversed());
         }   // Map이나 DTO로 바꿔서 리턴해야함
 
         return posts.stream()

@@ -19,14 +19,14 @@ public class Post {
     private String content;
     private String author;
     private Category category;
-    private  int viewcount;
+    private  int viewCount;
     private String thumbnailPath;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
 
     public Post() {
-        this.viewcount = 0;
+        this.viewCount = 0;
         this.createAt = LocalDateTime.now();
         this.updateAt = LocalDateTime.now();
     }
@@ -39,12 +39,11 @@ public class Post {
         this.category = category;
     }
 
-    public Post setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public void setViewcount() {
-        this.viewcount++;
+        this.viewCount++;
     }
 }

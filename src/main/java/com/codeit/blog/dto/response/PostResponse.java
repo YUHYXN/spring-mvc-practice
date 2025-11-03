@@ -28,7 +28,7 @@ public class PostResponse {
                 .content(post.getContent())
                 .author(post.getAuthor())
                 .category(post.getCategory())
-                .viewCount(post.getViewcount())
+                .viewCount(post.getViewCount())
                 .thumbnailPath(post.getThumbnailPath())
                 .createAt(post.getCreateAt())
                 .updateAt(post.getUpdateAt())

@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
-    // 의존성 주입 (서비스)
     private final PostService postService;
     private final CommentService commentService;
     private final FileService fileService;
@@ -33,7 +32,7 @@ public class PostController {
         // model: 자바 데이터를 뷰(사용자에게 응답할 페이지)로 전달하는 용도로 사용하는 객체.
         model.addAttribute("posts", allPosts);
         model.addAttribute("pageTitle", "블로그에 오신것을 환영합니다!");
-        return "posts/list"; // 뷰의 이름을 리턴
+        return "posts/list";
     }
 
     @GetMapping("/new")
@@ -45,8 +44,9 @@ public class PostController {
 
     @PostMapping
     public String create(PostRequest request,
-                         // 만약 전달되는 파일이 여러개다? -> List<MultipartFile> files 로 받으면 끝 파일저장은 forEach문 돌리면 됨.
-                         @RequestParam(value = "thumnail", required = false) MultipartFile file, Model model) {
+                         // 만약 전달되는 파일이 여러개다? List<MultipartFile> 로 받으면 끝. 반복 처리.
+                         @RequestParam(value = "thumbnail", required = false) MultipartFile file,
+                         Model model) {
         System.out.println("/posts: POST, 글 등록 요청!");
 
         // 파일 업로드 처리
@@ -54,7 +54,6 @@ public class PostController {
             String fileName = fileService.saveFile(file);
             request.setThumbnailPath(fileName);
         }
-
 
         // form 태그에서 전송되는 데이터는 입력 양식 태그의 name 속성의 이름으로 얻어올 수 있습니다.
         Post saved = postService.createPost(request);
@@ -86,7 +85,7 @@ public class PostController {
         List<PostResponse> posts = postService.searchPost(keyword, category, sort);
 
         model.addAttribute("posts", posts);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("keyword",  keyword);
         model.addAttribute("category", category);
         model.addAttribute("sort", sort);
         model.addAttribute("pageTitle", "🔎 검색 결과");
@@ -94,9 +93,7 @@ public class PostController {
         return "posts/list";
     }
 
-    // 게시글 삭제 -> 게시글에 포함된 이미지 파일도 함께 삭제 (Post가 파일명 가지고 있음.)
-
-
+    // 게시글 삭제 -> 게시글에 포함된 이미지 파일도 함께 삭제 (Post가 파일명을 가지고 있음.)
 
 }
 

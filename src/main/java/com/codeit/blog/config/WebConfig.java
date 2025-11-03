@@ -13,10 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 화면단에서 img 태그가 /images/파일명 로 시작하는 url 요청이 오면
-        // uploadDir에서 저장된 로컬 경로에서 파일을 제공.
-        // 이런 짓을 왜 해야하지? -> 브라우저에서는 특정 컴퓨터의 로컬 환경으로 직접 접근 자체가 막혀있음.
+        // 화면단에서 img 태그가 /images/..로 시작하는 url 요청 ->
+        // uploadDir에 저장된 로컬 경로에서 파일을 제공.
+        // 이런 짓을 왜 해야 하지? -> 브라우저에서는 특정 컴퓨터의 로컬 환경으로 직접 접근 자체가 막혀 있어요.
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:"+ uploadDir);
+                .addResourceLocations("file:" + uploadDir);
     }
 }

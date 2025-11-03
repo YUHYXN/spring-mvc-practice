@@ -12,8 +12,8 @@ public class DataInitializer {
 
     @Bean
     public CommandLineRunner initData(PostRepository postRepository) {
-        // CommandLineRunner 타입의 객체는 스프링 어플리케이션 초기화가 모두 완료되고, 빈 등록까지 전부 완료 되었을 때
-        // 마지막으로 실행되는 객체다.
+        // CommandLineRunner 타입 객체는 Spring 어플리케이션 초기화가 모두 완료되고, 빈 등록까지 전부 완료되었을 때
+        // 마지막으로 실행되는 객체입니다.
 
         return args -> {
             // CommandLineRunner 인터페이스 구현체를 람다식으로 즉석에서 선언.
@@ -96,7 +96,6 @@ public class DataInitializer {
 
             System.out.println("✅ 초기 데이터 생성 완료: " + postRepository.findAll().size() + "개의 게시글");
         };
-
     }
 
 }
