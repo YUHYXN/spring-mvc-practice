@@ -20,19 +20,19 @@ public class PostService {
     private final PostRepository postRepository;
 
     public List<Post> getAllPosts() {
-        return postRepository.findAll().stream()
-                .sorted(Comparator.comparing(Post::getCreateAt).reversed()) // 생성일자 내림차 정렬
-                .collect(Collectors.toList());
-//            List<Post> posts = postRepository.findAll();
-//            posts.sort((a, b) -> {
-//                var ca = a.getCreateAt();
-//                var cb = b.getCreateAt();
-//                if (ca == null && cb == null) return 0; // 둘 다 null
-//                if (ca == null) return 1;               // null은 뒤로
-//                if (cb == null) return -1;              // null은 뒤로
-//                return cb.compareTo(ca);                // 내림차순(최신 우선)
-//            });
-//            return posts;
+//        return postRepository.findAll().stream()
+//                .sorted(Comparator.comparing(Post::getCreateAt).reversed()) // 생성일자 내림차 정렬
+//                .collect(Collectors.toList());
+            List<Post> posts = postRepository.findAll();
+            posts.sort((a, b) -> {
+                var ca = a.getCreateAt();
+                var cb = b.getCreateAt();
+                if (ca == null && cb == null) return 0; // 둘 다 null
+                if (ca == null) return 1;               // null은 뒤로
+                if (cb == null) return -1;              // null은 뒤로
+                return cb.compareTo(ca);                // 내림차순(최신 우선)
+            });
+            return posts;
     }
 
     public Post createPost(PostRequest request) {
